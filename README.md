@@ -1,6 +1,12 @@
 # CityEcho 🌍
 
-**CityEcho**, modern teknolojiler kullanılarak geliştirilmiş, kullanıcıların favori mekanlarını keşfetmesini ve paylaşmasını sağlayan interaktif bir şehir rehberidir. Bu proje, **Next.js**'in gücünü arkasına alarak performans odaklı, ölçeklenebilir ve kullanıcı dostu bir deneyim sunar.
+[English](#english) | [Türkçe](#türkçe)
+
+<div id="english"></div>
+
+## English
+
+**CityEcho** is an interactive city guide powered by modern web technologies, allowing users to discover and share their favorite local spots. Built with **Next.js**, it delivers a performance-focused, scalable, and user-friendly experience.
 
 <div align="center">
 
@@ -14,102 +20,190 @@
 
 </div>
 
-## 🚀 Proje Hakkında
+### 🚀 About the Project
 
-CityEcho, şehirdeki restoran, kafe, otel, müze ve diğer ilgi çekici mekanların detaylı bir şekilde listelendiği, kullanıcıların bu mekanları harita üzerinde görebildiği ve kendi deneyimlerini paylaşabildiği bir platformdur. 
+CityEcho transforms how you explore the city. From hidden cafes to vibrant nightlife, it lists detailed information about restaurants, hotels, museums, and more. Users can visualize these places on an interactive map, read community reviews, and share their own experiences.
 
-### Öne Çıkan Özellikler
+### ✨ Key Features
 
-*   **⚡ Modern Mimari:** Next.js App Router mimarisi ile sunucu taraflı renderlama (SSR) ve istemci taraflı etkileşimlerin (CSR) hibrit kullanımı.
-*   **📷 Gelişmiş Görsel Yönetimi (Cloudinary):** Kullanıcılar tarafından yüklenen mekan fotoğraflarının optimizasyonu, boyutlandırılması ve güvenli depolanması **Cloudinary** entegrasyonu ile sağlanmaktadır.
-*   **🗄️ Güçlü Veritabanı Yapısı (Prisma & PostgreSQL):** İlişkisel veritabanı yönetimi için **Prisma ORM** kullanılmıştır. Tip güvenliği (Type-safety) sayesinde veri bütünlüğü korunurken, geliştirme süreci hızlandırılmıştır.
-*   **🤖 Otomasyon Hazırlığı (n8n):** Proje, **n8n** iş akış otomasyonları düşünülerek tasarlanmıştır. Webhook'lar ve API uç noktaları aracılığıyla dış servislerle (örn: e-posta bildirimleri, sosyal medya paylaşımları) entegre çalışabilir yapıdadır.
-*   **🗺️ İnteraktif Harita:** Leaflet.js entegrasyonu ile mekanların konum bazlı görselleştirilmesi.
-*   **🔐 Güvenli Kimlik Doğrulama:** NextAuth.js ile güvenli oturum yönetimi.
+*   **🌆 Expanded Horizons:** Now covering **Ankara, İstanbul, İzmir, Antalya, and Bursa**! Explore over 15+ newly curated popular spots across these major cities.
+*   **🚣 Activity-Centric Discovery:** It's not just about *places* anymore. Discover experiences and activities like **Gondola Tours**, Camping Spots, and Beach Clubs.
+*   **📸 Visual Review System:** Share your story vividly! Users can now attach **high-quality photos** to their reviews, creating a rich visual guide for the community.
+*   **⚡ Modern & Sleek UI:** Experience a refined user interface with **city-based filtering** and a redesigned, compact review form that fits perfectly on any screen.
+*   **🛡️ Robust Admin Power:** A comprehensive Admin Panel empowers moderators to manage not just places, but also user **reviews** directly—ensuring quality and trust.
+*   **🎨 Advanced Image Management:** powered by **Cloudinary** for optimized, secure, and responsive image delivery.
+*   **🗺️ Interactive Maps:** Integrated with Leaflet.js for seamless location visualization.
 
-## 🛠️ Teknoloji Yığını (Tech Stack)
+### 🛠️ Tech Stack
 
-Bu projede endüstri standardı modern araçlar kullanılmıştır:
+Built with industry-standard modern tools:
 
-*   **Frontend & Backend:** Next.js 16 (React, TypeScript)
-*   **Veritabanı:** PostgreSQL
-*   **ORM:** Prisma
-*   **Medya Yönetimi:** Cloudinary
-*   **Harita Hizmetleri:** Leaflet / React-Leaflet
-*   **UI Kütüphanesi:** Tailwind CSS, Lucide React
-*   **Form Yönetimi & Validasyon:** React Hook Form (Opsiyonel: manual state management kullanıldıysa bu kaldırılabilir)
+*   **Core:** Next.js 16 (React, TypeScript)
+*   **Database:** PostgreSQL with **Prisma ORM**
+*   **Media:** Cloudinary (Storage & Optimization)
+*   **Maps:** Leaflet / React-Leaflet
+*   **Styling:** Tailwind CSS, Lucide React
+*   **Auth:** NextAuth.js
 
-## 🏗️ Kurulum ve Çalıştırma
+### 🏗️ Installation & Setup
 
-Projenin yerel ortamda çalıştırılması için aşağıdaki adımları izleyin:
+Follow these steps to run the project locally:
 
-### 1. Depoyu Klonlayın
-```bash
-git clone https://github.com/kullaniciadi/cityecho.git
-cd cityecho
-```
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/username/cityecho.git
+    cd cityecho
+    ```
 
-### 2. Bağımlılıkları Yükleyin
-```bash
-npm install
-```
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-### 3. Çevresel Değişkenleri Ayarlayın (.env)
-Kök dizinde `.env` dosyası oluşturun ve aşağıdaki değişkenleri tanımlayın:
+3.  **Configure Environment Variables**
+    Create a `.env` file in the root directory:
+    ```env
+    DATABASE_URL="postgresql://user:password@localhost:5432/cityecho"
+    NEXTAUTH_SECRET="your-secret-key"
+    NEXTAUTH_URL="http://localhost:3000"
 
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/cityecho"
-NEXTAUTH_SECRET="gizli-anahtar"
-NEXTAUTH_URL="http://localhost:3000"
+    # Cloudinary Config
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="your-upload-preset"
+    ```
 
-# Cloudinary Config
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="cloud-name"
-NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="upload-preset"
-```
+4.  **Setup Database**
+    ```bash
+    npx prisma migrate dev
+    ```
 
-### 4. Veritabanını Hazırlayın
-Prisma şemasını veritabanına uygulayın:
+5.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
+    Visit [http://localhost:3000](http://localhost:3000) to start exploring.
 
-```bash
-npx prisma migrate dev
-```
+### 📂 Database Logic (One-to-Many)
 
-### 5. Uygulamayı Başlatın
-```bash
-npm run dev
-```
-Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresine giderek uygulamayı görüntüleyebilirsiniz.
-
-## 📂 Veritabanı Şeması (Prisma)
-
-Proje, `Place` ve `PlaceImage` modelleri arasında kurulan **One-to-Many** ilişkisi üzerine kurgulanmıştır. Bu yapı sayesinde bir mekanın birden fazla yüksek çözünürlüklü fotoğrafı Cloudinary üzerinde barındırılırken, referansları veritabanında tutulur.
+We utilize a robust **One-to-Many** relationship for images, ensuring that places and reviews can have multiple high-quality visuals without cluttering main tables.
 
 ```prisma
 model Place {
-  id          String       @id @default(cuid())
-  title       String
-  description String
-  category    Category
-  images      PlaceImage[] // İlişki
-  // ...diğer alanlar
+  id      String       @id @default(cuid())
+  images  PlaceImage[] // Relation
+  reviews Review[]
+  // ...
 }
 
-model PlaceImage {
-  id      String @id @default(cuid())
-  url     String
-  placeId String
-  place   Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+model Review {
+  id     String        @id @default(cuid())
+  images ReviewImage[] // Visual Reviews
+  // ...
 }
 ```
 
-## 🌐 n8n Otomasyon Entegrasyonu
+---
 
-CityEcho, iş akışlarını otomatize etmek için **n8n** ile uyumlu API yapısına sahiptir.
+<div id="türkçe"></div>
 
-*   **Webhook Desteği:** Yeni bir mekan eklendiğinde tetiklenen webhook'lar.
-*   **Bildirimler:** Kullanıcı etkileşimlerinde (yorum, beğeni) otomatik e-posta gönderimi.
-*   **Veri Senkronizasyonu:** Belirli periyotlarda veritabanı yedekleme veya raporlama işlemleri.
+## Türkçe
+
+**CityEcho**, modern web teknolojileri ile güçlendirilmiş, kullanıcıların favori mekanlarını keşfetmelerini ve paylaşmalarını sağlayan etkileşimli bir şehir rehberidir. **Next.js** ile geliştirilmiş olup, performans odaklı, ölçeklenebilir ve kullanıcı dostu bir deneyim sunar.
+
+<div align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-16.1.0-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-5.0-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-Management-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
+![n8n](https://img.shields.io/badge/n8n-Automation-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)
+
+</div>
+
+### 🚀 Proje Hakkında
+
+CityEcho, şehri keşfetme şeklinizi değiştiriyor. Gizli kafelerden canlı gece hayatına kadar restoranlar, oteller, müzeler ve daha fazlası hakkında detaylı bilgiler listeler. Kullanıcılar bu mekanları interaktif bir harita üzerinde görüntüleyebilir, topluluk yorumlarını okuyabilir ve kendi deneyimlerini paylaşabilir.
+
+### ✨ Öne Çıkan Özellikler
+
+*   **🌆 Ufukları Genişlet:** Artık **Ankara, İstanbul, İzmir, Antalya ve Bursa'yı** kapsıyor! Bu büyük şehirlerde özenle seçilmiş 15'ten fazla yeni popüler mekanı keşfedin.
+*   **🚣 Aktivite Odaklı Keşif:** Sadece *mekanlar* değil. **Gondol Turları**, Kamp Alanları ve Plaj Kulüpleri gibi deneyim ve aktiviteleri keşfedin.
+*   **📸 Görsel Yorum Sistemi:** Hikayenizi canlı bir şekilde paylaşın! Kullanıcılar artık yorumlarına **yüksek kaliteli fotoğraflar** ekleyebilir, topluluk için zengin bir görsel rehber oluşturabilir.
+*   **⚡ Modern & Şık Arayüz:** **Şehir bazlı filtreleme** ve her ekrana mükemmel uyum sağlayan yeniden tasarlanmış, kompakt yorum formu ile rafine bir kullanıcı deneyimi yaşayın.
+*   **🛡️ Güçlü Admin Yönetimi:** Kapsamlı Admin Paneli, moderatörlerin sadece mekanları değil, kullanıcı **yorumlarını** da doğrudan yönetmesini sağlar — kalite ve güveni garanti eder.
+*   **🎨 Gelişmiş Görsel Yönetimi:** Optimize edilmiş, güvenli ve duyarlı görsel sunumu için **Cloudinary** ile güçlendirilmiştir.
+*   **🗺️ İnteraktif Haritalar:** Sorunsuz konum görselleştirme için Leaflet.js ile entegre edilmiştir.
+
+### 🛠️ Teknoloji Yığını
+
+Endüstri standardı modern araçlarla oluşturulmuştur:
+
+*   **Çekirdek:** Next.js 16 (React, TypeScript)
+*   **Veritabanı:** **Prisma ORM** ile PostgreSQL
+*   **Medya:** Cloudinary (Depolama & Optimizasyon)
+*   **Harita:** Leaflet / React-Leaflet
+*   **Stil:** Tailwind CSS, Lucide React
+*   **Kimlik Doğrulama:** NextAuth.js
+
+### 🏗️ Kurulum
+
+Projeyi yerel ortamda çalıştırmak için şu adımları izleyin:
+
+1.  **Depoyu Klonlayın**
+    ```bash
+    git clone https://github.com/kullaniciadi/cityecho.git
+    cd cityecho
+    ```
+
+2.  **Bağımlılıkları Yükleyin**
+    ```bash
+    npm install
+    ```
+
+3.  **Çevresel Değişkenleri Ayarlayın**
+    Kök dizinde `.env` dosyası oluşturun:
+    ```env
+    DATABASE_URL="postgresql://user:password@localhost:5432/cityecho"
+    NEXTAUTH_SECRET="gizli-anahtar"
+    NEXTAUTH_URL="http://localhost:3000"
+
+    # Cloudinary Config
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="cloud-name"
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="upload-preset"
+    ```
+
+4.  **Veritabanını Hazırlayın**
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5.  **Uygulamayı Başlatın**
+    ```bash
+    npm run dev
+    ```
+    Keşfetmeye başlamak için [http://localhost:3000](http://localhost:3000) adresini ziyaret edin.
+
+### 📂 Veritabanı Mantığı (Bire-Çok)
+
+Resimler için sağlam bir **Bire-Çok (One-to-Many)** ilişki kullanıyoruz, böylece mekanlar ve yorumlar ana tabloları şişirmeden birden fazla yüksek kaliteli görsele sahip olabiliyor.
+
+```prisma
+model Place {
+  id      String       @id @default(cuid())
+  images  PlaceImage[] // İlişki
+  reviews Review[]
+  // ...
+}
+
+model Review {
+  id     String        @id @default(cuid())
+  images ReviewImage[] // Görsel Yorumlar
+  // ...
+}
+```
 
 ---
 *Geliştirici: Semiha Gökmen*
-*Tarih: 21 Aralık 2024*
+*Son Güncelleme: 21 Aralık 2024*
