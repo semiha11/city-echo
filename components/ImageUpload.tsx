@@ -28,13 +28,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 {value.map((url) => (
                     <div key={url} className="relative w-[150px] h-[150px] rounded-lg overflow-hidden shadow-md group border border-gray-200">
                         <div className="z-10 absolute top-2 right-2">
-                             <button
+                            <button
                                 type="button"
                                 onClick={() => onRemove(url)}
                                 className="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-sm transition-all opacity-0 group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0"
-                             >
+                            >
                                 <Trash className="w-4 h-4" />
-                             </button>
+                            </button>
                         </div>
                         <Image
                             fill
@@ -45,15 +45,16 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     </div>
                 ))}
             </div>
-            
+
             {value.length < maxFiles && (
                 <CldUploadWidget
                     onSuccess={handleUpload}
-                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET} 
+                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
                     options={{
+                        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
                         maxFiles: maxFiles - value.length,
                         folder: "cityecho",
-                        clientAllowedFormats: ["image"], 
+                        clientAllowedFormats: ["image"],
                     }}
                 >
                     {({ open }) => {
