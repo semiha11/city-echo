@@ -1,65 +1,78 @@
-import Image from "next/image";
+import { getPlaces } from '@/lib/db-queries';
+import PlaceCard from '@/components/PlaceCard';
+import { Search, Coffee, Palmtree, Utensils, Building2, ShoppingBag } from 'lucide-react';
 
-export default function Home() {
+// Wait, Search logic is client side (useState), but this is a server component now.
+// I will keep the Hero section client-side or extract SearchBar to a client component.
+// Let's extract SearchBar to components/SearchBar.tsx first?
+// Or I can make parts of this page client component?
+// Actually `page.tsx` should be Server Component to fetch data.
+// So I need to move the Hero/Search logic to a separate Client Component or just the form.
+// For simplicity, let's make `app/page.tsx` a Server Component and import `SearchBar` client component.
+
+import Link from 'next/link';
+
+// I need to create SearchBar component quickly or inline it as a client component? No, file separation is better.
+// But valid task is just updating page.tsx. I'll invoke a separate tool to create SearchBar first?
+// No, I can't do parallel request effectively if I replace content now.
+// I will create `components/HeroSection.tsx` which is Client Component.
+
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const places = await getPlaces();
+
+  const categories = [
+    { name: 'Cafe', icon: Coffee, color: 'text-amber-600 bg-amber-50' },
+    { name: 'Restaurant', icon: Utensils, color: 'text-orange-600 bg-orange-50' },
+    { name: 'Hotel', icon: Building2, color: 'text-blue-600 bg-blue-50' },
+    { name: 'Park', icon: Palmtree, color: 'text-green-600 bg-green-50' },
+    { name: 'Mall', icon: ShoppingBag, color: 'text-purple-600 bg-purple-50' },
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="flex flex-col min-h-[calc(100vh-64px)]">
+      <HeroSection />
+
+      {/* Categories Section */}
+      <section className="py-12 px-4 max-w-7xl mx-auto w-full">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Popular Categories</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+          {categories.map((cat) => (
+            <Link
+              key={cat.name}
+              href={`/search?category=${cat.name.toUpperCase()}`}
+              className="flex flex-col items-center justify-center p-6 rounded-2xl border border-gray-100 bg-white hover:shadow-lg hover:border-transparent transition-all group"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <div className={`p-4 rounded-full mb-3 ${cat.color} group-hover:scale-110 transition-transform`}>
+                <cat.icon className="h-8 w-8" />
+              </div>
+              <span className="font-semibold text-gray-700">{cat.name}</span>
+            </Link>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      {/* Featured Places */}
+      <section className="py-12 px-4 max-w-7xl mx-auto w-full">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Places</h2>
+
+        {places.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {places.map((place) => (
+              <PlaceCard key={place.id} place={place} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <p className="text-gray-500 text-lg">No places added yet.</p>
+            <p className="text-sm text-gray-400 mt-2">Be the first to share a hidden gem!</p>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
+
+// Client Component for Hero to handle Search State
+import HeroSection from '@/components/HeroSection';

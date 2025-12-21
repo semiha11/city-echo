@@ -1,0 +1,185 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique // Optional now as NextAuth usually relies on email/name
+  password_hash String?   // Optional because OAuth users won't have a password
+  created_at    DateTime  @default(now())
+
+  // Profile fields
+  bio       String?
+  city      String?
+  age       String?
+  gender    String? // "female", "male", "nonbinary"
+  interests String? // Stored as comma separated string
+  
+  role      String    @default("USER") // "USER" | "ADMIN"
+
+  accounts      Account[]
+  sessions      Session[]
+  places        Place[]
+  reviews       Review[]
+  favorites     Favorite[]
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+
+
+model Place {
+  id          String        @id @default(cuid())
+  title       String
+  category    String
+  description String
+  city        String
+  district    String
+  address     String
+  latitude    Float
+  longitude   Float
+  images      PlaceImage[] // Relation to new image model
+  
+  // New Fields
+  priceRange  String?       // Storing Enum as String for SQLite simplicity if needed, or proper Enum
+  breakfast   Boolean       @default(false)
+  lunch       Boolean       @default(false)
+  dinner      Boolean       @default(false)
+  dessert     Boolean       @default(false)
+  snack       Boolean       @default(false)
+
+  isApproved  Boolean       @default(false) // Approval workflow
+
+  // Visit Details (Museum, Park)
+  isPaid             Boolean       @default(false)
+  entranceFee        String?       // "20 TL" or "Free"
+  museumCardAccepted Boolean       @default(false)
+  photography        Boolean       @default(false)
+  
+  // Park Specific
+  largeArea          Boolean       @default(false)
+  petFriendly        Boolean       @default(false)
+  playground         Boolean       @default(false)
+  freeEntry          Boolean       @default(false)
+
+  // Food & Drink (Restaurant, Cafe)
+  veganOption        Boolean       @default(false)
+  outdoorSeating     Boolean       @default(false)
+  
+  // Hotel & Mall
+  parking            Boolean       @default(false)
+  wifi               Boolean       @default(false) // Common useful one
+  pool               Boolean       @default(false) // Hotel
+  gym                Boolean       @default(false) // Hotel
+  noiseLevel         String?       // Hotel: "Quiet", "Moderate", "Loud"
+  foodCourt          Boolean       @default(false) // Mall
+  babyCare           Boolean       @default(false) // Mall
+
+  // Beach Specific
+  blueFlag           Boolean       @default(false)
+  sunbed             Boolean       @default(false) // Sunbed/Umbrella
+  shower             Boolean       @default(false) // Shower/Changing Room
+
+  // Camping Specific
+  tentRental         Boolean       @default(false)
+  electricity        Boolean       @default(false)
+  fireAllowed        Boolean       @default(false)
+  caravanAccess      Boolean       @default(false)
+
+  // New Features (Cafe, Restaurant, Mall, Beach)
+  isFamilyFriendly   Boolean       @default(false) // Aile Yeri
+  hasSmokingArea     Boolean       @default(false) // Sigara Alanı
+  alcoholStatus      String?       // "NONE", "ALCOHOLIC", "BOTH" or just string "Alkollü", "Alkolsüz"
+
+  user_id     String
+  created_at  DateTime      @default(now())
+
+  user        User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  reviews     Review[]
+  favorites   Favorite[]
+
+  @@map("places")
+}
+
+model PlaceImage {
+  id      String @id @default(cuid())
+  url     String
+  placeId String
+  place   Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@map("place_images")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  placeId   String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, placeId])
+  @@map("favorites")
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  place_id     String
+  user_id      String
+  rating       Int      // 1-5
+  comment_text String
+  created_at   DateTime @default(now())
+
+  place        Place    @relation(fields: [place_id], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
