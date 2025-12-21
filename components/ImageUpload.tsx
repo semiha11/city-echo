@@ -49,9 +49,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             {value.length < maxFiles && (
                 <CldUploadWidget
                     onSuccess={handleUpload}
-                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                    uploadPreset="cityecho_preset"
                     options={{
-                        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+                        cloudName: "dpmwzoqgl",
                         maxFiles: maxFiles - value.length,
                         folder: "cityecho",
                         clientAllowedFormats: ["image"],
