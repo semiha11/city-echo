@@ -3900,3 +3900,213 @@
 2025-12-21T19:52:40.971Z JWT Callback: Token refresh/check.
 2025-12-21T19:52:40.971Z Session Callback: Token ID Generic
 2025-12-21T19:52:40.972Z Session Populated: Role=ADMIN
+2025-12-21T20:31:01.708Z JWT Callback: Token refresh/check.
+2025-12-21T20:31:01.712Z Session Callback: Token ID Generic
+2025-12-21T20:31:01.712Z Session Populated: Role=ADMIN
+2025-12-21T20:31:05.874Z JWT Callback: Token refresh/check.
+2025-12-21T20:31:05.874Z Session Callback: Token ID Generic
+2025-12-21T20:31:05.875Z Session Populated: Role=ADMIN
+2025-12-21T20:31:07.910Z JWT Callback: Token refresh/check.
+2025-12-21T20:31:07.910Z Session Callback: Token ID Generic
+2025-12-21T20:31:07.910Z Session Populated: Role=ADMIN
+2025-12-21T20:31:11.292Z JWT Callback: Token refresh/check.
+2025-12-21T20:31:11.292Z Session Callback: Token ID Generic
+2025-12-21T20:31:11.292Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.175Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.179Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.179Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.257Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.257Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.257Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.322Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.322Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.322Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.415Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.416Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.416Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.479Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.479Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.480Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.523Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.524Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.524Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.613Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.613Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.613Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.644Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.645Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.645Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.685Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.686Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.686Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.710Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.710Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.710Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.732Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.732Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.732Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.754Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.754Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.754Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.775Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.776Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.776Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.819Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.819Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.819Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.842Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.842Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.842Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.898Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.899Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.899Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.938Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.939Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.939Z Session Populated: Role=ADMIN
+2025-12-21T20:48:38.981Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:38.981Z Session Callback: Token ID Generic
+2025-12-21T20:48:38.981Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.041Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.041Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.041Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.094Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.095Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.096Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.179Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.179Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.180Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.242Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.242Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.242Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.297Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.297Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.298Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.372Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.372Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.372Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.430Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.431Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.431Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.481Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.482Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.482Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.523Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.523Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.523Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.554Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.555Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.556Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.588Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.588Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.589Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.622Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.622Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.622Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.661Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.661Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.661Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.684Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.685Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.685Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.713Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.713Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.713Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.754Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.755Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.755Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.780Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.780Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.780Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.806Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.807Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.807Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.827Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.827Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.827Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.884Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.885Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.885Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.911Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.911Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.911Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.931Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.931Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.931Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.953Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.953Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.953Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.974Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.975Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.975Z Session Populated: Role=ADMIN
+2025-12-21T20:48:39.997Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:39.997Z Session Callback: Token ID Generic
+2025-12-21T20:48:39.997Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.037Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.038Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.038Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.070Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.070Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.070Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.090Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.091Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.091Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.114Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.115Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.115Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.132Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.133Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.133Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.150Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.151Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.151Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.179Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.179Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.180Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.198Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.199Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.199Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.232Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.232Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.232Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.252Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.252Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.252Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.273Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.274Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.274Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.295Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.295Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.295Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.314Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.314Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.315Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.334Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.334Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.334Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.350Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.350Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.350Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.368Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.368Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.368Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.383Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.383Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.383Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.401Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.401Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.401Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.417Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.417Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.417Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.445Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.446Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.446Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.471Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.472Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.472Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.490Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.490Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.490Z Session Populated: Role=ADMIN
+2025-12-21T20:48:40.513Z JWT Callback: Token refresh/check.
+2025-12-21T20:48:40.513Z Session Callback: Token ID Generic
+2025-12-21T20:48:40.513Z Session Populated: Role=ADMIN

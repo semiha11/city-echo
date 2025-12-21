@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs';
-import { MapPin, Calendar, Heart, MessageSquare, Edit } from 'lucide-react';
+import { MapPin, Calendar, Heart, MessageSquare, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import InterestInput from '@/components/InterestInput';
 import ImageUploader from '@/components/ImageUploader';
@@ -318,21 +318,53 @@ export default function ProfilePage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {user.places?.map((place: any) => (
-                                <Link key={place.id} href={`/places/${place.id}`} className="group block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all">
-                                    <div className="h-48 bg-gray-100 relative">
-                                        {place.image_url ? (
-                                            <img src={place.image_url} alt={place.title} className="w-full h-full object-cover" />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
-                                                <MapPin className="w-8 h-8" />
-                                            </div>
-                                        )}
+                                <div key={place.id} className="group relative bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all">
+                                    <Link href={`/places/${place.id}`} className="block">
+                                        <div className="h-48 bg-gray-100 relative">
+                                            {place.image_url ? (
+                                                <img src={place.image_url} alt={place.title} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                                                    <MapPin className="w-8 h-8" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-4">
+                                            <h3 className="font-bold text-gray-900 group-hover:text-rose-600 transition-colors">{place.title}</h3>
+                                            <p className="text-gray-500 text-sm">{place.city}, {place.district}</p>
+                                        </div>
+                                    </Link>
+                                    {/* Action Buttons */}
+                                    <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Link
+                                            href={`/places/edit/${place.id}`}
+                                            className="p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm hover:bg-orange-50 text-orange-600 transition-colors"
+                                            title="Edit Place"
+                                        >
+                                            <Edit className="w-4 h-4" />
+                                        </Link>
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (window.confirm('Are you sure you want to delete this place? This action cannot be undone.')) {
+                                                    fetch(`/api/places/${place.id}`, { method: 'DELETE' })
+                                                        .then(res => {
+                                                            if (res.ok) {
+                                                                toast.success('Place deleted');
+                                                                fetchUserData(); // Refresh list
+                                                            } else {
+                                                                toast.error('Failed to delete');
+                                                            }
+                                                        });
+                                                }
+                                            }}
+                                            className="p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm hover:bg-red-50 text-red-600 transition-colors"
+                                            title="Delete Place"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
                                     </div>
-                                    <div className="p-4">
-                                        <h3 className="font-bold text-gray-900 group-hover:text-rose-600 transition-colors">{place.title}</h3>
-                                        <p className="text-gray-500 text-sm">{place.city}, {place.district}</p>
-                                    </div>
-                                </Link>
+                                </div>
                             ))}
                         </div>
                     )}

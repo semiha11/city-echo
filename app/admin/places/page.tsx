@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Check, X, Trash2, Edit, Search } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
+import Link from 'next/link';
 
 interface AdminPlace {
     id: string;
@@ -133,7 +134,9 @@ export default function AdminPlacesPage() {
                                                     <img src={place.images?.[0]?.url || place.image_url || ''} alt="" className="object-cover w-full h-full" />
                                                 ) : <div className="w-full h-full bg-gray-200" />}
                                             </div>
-                                            <span className="font-medium text-gray-900">{place.title}</span>
+                                            <Link href={`/places/${place.id}`} target="_blank" className="font-medium text-gray-900 hover:text-blue-600 hover:underline">
+                                                {place.title}
+                                            </Link>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-600">{place.city}</td>
