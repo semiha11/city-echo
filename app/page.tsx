@@ -15,6 +15,7 @@ import CityGuide from '@/components/home/CityGuide';
 
 // Client Component for Hero to handle Search State
 import HeroSection from '@/components/HeroSection';
+import ClientOnly from '@/components/ClientOnly';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,10 +32,11 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-64px)]">
-      <HeroSection />
-
-      {/* City Guide Section - Dynamic from DB */}
-      <CityGuide places={places} />
+      <ClientOnly>
+        <HeroSection />
+        {/* City Guide Section - Dynamic from DB */}
+        <CityGuide places={places} />
+      </ClientOnly>
 
       {/* Categories Section */}
       <section className="py-12 px-4 max-w-7xl mx-auto w-full">
