@@ -79,12 +79,12 @@ model Place {
   id          String        @id @default(cuid())
   title       String
   category    String
-  description String
+  description String?
   city        String
   district    String
-  address     String
-  latitude    Float
-  longitude   Float
+  address     String?
+  latitude    Float?
+  longitude   Float?
   images      PlaceImage[] // Relation to new image model
   
   // New Fields
@@ -95,7 +95,7 @@ model Place {
   dessert     Boolean       @default(false)
   snack       Boolean       @default(false)
 
-  isApproved  Boolean       @default(false) // Approval workflow
+  isApproved  Boolean       @default(true) // Approval workflow - Defaulting to TRUE as per request
 
   // Visit Details (Museum, Park)
   isPaid             Boolean       @default(false)
@@ -138,6 +138,18 @@ model Place {
   hasSmokingArea     Boolean       @default(false) // Sigara Alanı
   alcoholStatus      String?       // "NONE", "ALCOHOLIC", "BOTH" or just string "Alkollü", "Alkolsüz"
 
+  // Activity Specific
+  duration           String?       // "2 Saat", "Yarım Gün"
+  reservationRequired Boolean      @default(false)
+  bestTime           String?       // "Gün Batımı", "Sabah"
+
+  // Bar & Club Specific
+  damAllowed         Boolean       @default(false) // Damsız girilir mi?
+  musicType          String?       // "Pop", "Jazz", "Techno"
+
+  // General Recommendation
+  editorNote         String?       // Kullanıcı Tavsiyesi / Editör Notu
+
   user_id     String
   created_at  DateTime      @default(now())
 
@@ -145,6 +157,7 @@ model Place {
   reviews     Review[]
   favorites   Favorite[]
 
+  @@unique([title, city])
   @@map("places")
 }
 
@@ -178,8 +191,19 @@ model Review {
   comment_text String
   created_at   DateTime @default(now())
 
+  images       ReviewImage[]
+
   place        Place    @relation(fields: [place_id], references: [id], onDelete: Cascade)
   user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("reviews")
+}
+
+model ReviewImage {
+  id       String @id @default(cuid())
+  url      String
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@map("review_images")
 }

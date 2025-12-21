@@ -21,7 +21,16 @@ export async function GET(req: Request) {
                 },
                 reviews: {
                     orderBy: { created_at: 'desc' },
-                    // include: { place: true } // Optional: if we want to show which place the review is for
+                    include: {
+                        place: true,
+                        images: true,
+                        user: {
+                            select: {
+                                name: true,
+                                image: true
+                            }
+                        }
+                    }
                 },
                 favorites: {
                     include: {

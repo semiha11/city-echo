@@ -1,8 +1,9 @@
+
 "use client";
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { X, Save, Coffee, Utensils, UtensilsCrossed, IceCream, Carrot, Palmtree, Tent, Tag } from 'lucide-react';
+import { X, Save, Coffee, Utensils, UtensilsCrossed, IceCream, Carrot, Palmtree, Tent, Tag, Clock, UserCheck, Ticket, Mic2, Users, Music } from 'lucide-react';
 import { turkeyLocations } from '@/data/turkey-locations';
 import { toast } from 'sonner';
 import ImageUpload from '@/components/ImageUpload';
@@ -60,7 +61,14 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
         // New Features
         isFamilyFriendly: (place as any).isFamilyFriendly || false,
         hasSmokingArea: (place as any).hasSmokingArea || false,
-        alcoholStatus: (place as any).alcoholStatus || 'NONE',
+        alcoholStatus: (place as any).alcoholStatus || null,
+        // Activity & Nightlife
+        duration: (place as any).duration || '',
+        reservationRequired: (place as any).reservationRequired || false,
+        bestTime: (place as any).bestTime || '',
+        damAllowed: (place as any).damAllowed || false,
+        musicType: (place as any).musicType || '',
+        editorNote: (place as any).editorNote || '',
     });
 
     const handleChange = (e: any) => {
@@ -129,7 +137,18 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
         }
 
         if (!['RESTAURANT', 'CAFE', 'BEACH'].includes(category)) {
-            sanitizedData.alcoholStatus = 'NONE';
+            sanitizedData.alcoholStatus = null;
+        }
+
+        if (category !== 'ACTIVITY') {
+            sanitizedData.duration = null;
+            sanitizedData.reservationRequired = false;
+            sanitizedData.bestTime = null;
+        }
+
+        if (!['BAR', 'CLUB'].includes(category)) {
+            sanitizedData.musicType = null;
+            sanitizedData.damAllowed = false;
         }
 
         // Shared conditional fields cleanup
@@ -138,7 +157,7 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
             sanitizedData.wifi = false;
         }
 
-        if (!['BEACH', 'MUSEUM', 'OTHER'].includes(category)) {
+        if (!['BEACH', 'MUSEUM', 'OTHER', 'BAR', 'CLUB'].includes(category)) {
             sanitizedData.isPaid = false;
             sanitizedData.entranceFee = '';
         }
@@ -234,11 +253,18 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                                 freeEntry: ['PARK'].includes(newCategory) ? prev.freeEntry : false,
                                                 isFamilyFriendly: ['RESTAURANT', 'CAFE', 'MALL', 'BEACH'].includes(newCategory) ? prev.isFamilyFriendly : false,
                                                 hasSmokingArea: ['RESTAURANT', 'CAFE', 'MALL', 'BEACH'].includes(newCategory) ? prev.hasSmokingArea : false,
-                                                alcoholStatus: ['RESTAURANT', 'CAFE', 'BEACH'].includes(newCategory) ? prev.alcoholStatus : 'NONE',
+                                                alcoholStatus: ['RESTAURANT', 'CAFE', 'BEACH'].includes(newCategory) ? prev.alcoholStatus : null,
+                                                // Category Reset Logic
+                                                duration: newCategory === 'ACTIVITY' ? prev.duration : '',
+                                                reservationRequired: ['ACTIVITY', 'RESTAURANT', 'BAR', 'CLUB'].includes(newCategory) ? prev.reservationRequired : false,
+                                                bestTime: newCategory === 'ACTIVITY' ? prev.bestTime : '',
+                                                damAllowed: ['BAR', 'CLUB'].includes(newCategory) ? prev.damAllowed : false,
+                                                musicType: ['BAR', 'CLUB'].includes(newCategory) ? prev.musicType : '',
+                                                isPaid: ['BEACH', 'MUSEUM', 'OTHER', 'BAR', 'CLUB'].includes(newCategory) ? prev.isPaid : false,
+                                                entranceFee: ['BEACH', 'MUSEUM', 'OTHER', 'BAR', 'CLUB'].includes(newCategory) ? prev.entranceFee : '',
                                                 parking: ['HOTEL', 'MALL'].includes(newCategory) ? prev.parking : false,
                                                 wifi: ['HOTEL', 'MALL'].includes(newCategory) ? prev.wifi : false,
-                                                isPaid: ['BEACH', 'MUSEUM', 'OTHER'].includes(newCategory) ? prev.isPaid : false,
-                                                entranceFee: ['BEACH', 'MUSEUM', 'OTHER'].includes(newCategory) ? prev.entranceFee : '',
+
                                                 museumCardAccepted: ['MUSEUM', 'OTHER'].includes(newCategory) ? prev.museumCardAccepted : false,
                                                 photography: ['MUSEUM', 'OTHER'].includes(newCategory) ? prev.photography : false,
                                             }));
@@ -246,7 +272,7 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                         className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[var(--color-sunset-orange)] outline-none bg-white"
                                     >
                                         <option value="">Select category</option>
-                                        {['CAFE', 'MUSEUM', 'HOTEL', 'MALL', 'RESTAURANT', 'PARK', 'BEACH', 'CAMPING'].map(cat => (
+                                        {['CAFE', 'MUSEUM', 'HOTEL', 'MALL', 'RESTAURANT', 'PARK', 'BEACH', 'CAMPING', 'ACTIVITY', 'BAR', 'CLUB'].map(cat => (
                                             <option key={cat} value={cat}>{cat}</option>
                                         ))}
                                     </select>
@@ -325,10 +351,7 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                                 { value: 'EXPENSIVE', label: '400-600 TL', desc: '(kişi başı)' },
                                                 { value: 'VERY_EXPENSIVE', label: '800+ TL', desc: '(kişi başı)' }
                                             ].map((price) => (
-                                                <label key={price.value} className={`
-                                                    flex-1 cursor-pointer rounded-xl border p-3 flex flex-col items-center gap-1 transition-all bg-white
-                                                    ${formData.priceRange === price.value ? 'border-orange-500 ring-1 ring-orange-500 text-orange-700' : 'border-gray-200 hover:border-gray-300'}
-                                                `}>
+                                                <label key={price.value} className={`flex-1 cursor-pointer rounded-xl border p-3 flex flex-col items-center gap-1 transition-all bg-white ${(formData as any).priceRange === price.value ? 'border-orange-500 ring-1 ring-orange-500 text-orange-700' : 'border-gray-200 hover:border-gray-300'}`}>
                                                     <input type="radio" name="priceRange" value={price.value} className="hidden" checked={formData.priceRange === price.value} onChange={handleChange} />
                                                     <span className="font-bold text-lg">{price.label}</span>
                                                     <span className="text-xs text-center opacity-70">{price.desc}</span>
@@ -349,10 +372,7 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                             ].map((meal) => {
                                                 const Icon = meal.icon;
                                                 return (
-                                                    <label key={meal.key} className={`
-                                                        cursor-pointer rounded-xl border p-3 flex flex-col items-center gap-2 transition-all bg-white
-                                                        ${(formData as any)[meal.key] ? 'border-teal-500 ring-1 ring-teal-500 text-teal-700 bg-teal-50' : 'border-gray-200 hover:border-gray-300'}
-                                                `}>
+                                                    <label key={meal.key} className={`cursor-pointer rounded-xl border p-3 flex flex-col items-center gap-2 transition-all bg-white ${(formData as any)[meal.key] ? 'border-teal-500 ring-1 ring-teal-500 text-teal-700 bg-teal-50' : 'border-gray-200 hover:border-gray-300'}`}>
                                                         <input type="checkbox" name={meal.key} className="hidden" checked={Boolean((formData as any)[meal.key])} onChange={handleChange} />
                                                         <Icon className="w-5 h-5" />
                                                         <span className="text-xs font-medium">{meal.label}</span>
@@ -363,17 +383,15 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                     </div>
                                     {/* Features */}
                                     <div className="flex gap-4">
-                                        <label className={`
-                                            flex-1 cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
+                                        <label className={`flex-1 cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
                                             ${(formData as any).veganOption ? 'border-green-500 ring-1 ring-green-500 text-green-900 bg-green-50' : 'border-gray-200 hover:border-gray-300'}
-                                        `}>
+`}>
                                             <span className="font-medium">Vegan Options 🌱</span>
                                             <input type="checkbox" name="veganOption" className="w-5 h-5 rounded text-green-600 focus:ring-green-500" checked={Boolean((formData as any).veganOption)} onChange={handleChange} />
                                         </label>
-                                        <label className={`
-                                            flex-1 cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
+                                        <label className={`flex-1 cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
                                             ${(formData as any).outdoorSeating ? 'border-blue-500 ring-1 ring-blue-500 text-blue-900 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}
-                                        `}>
+`}>
                                             <span className="font-medium">Outdoor Seating ☀️</span>
                                             <input type="checkbox" name="outdoorSeating" className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500" checked={Boolean((formData as any).outdoorSeating)} onChange={handleChange} />
                                         </label>
@@ -398,9 +416,9 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                             { key: 'isPaid', label: 'Entrance Fee 💵' },
                                         ].map((item) => (
                                             <label key={item.key} className={`
-                                                cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
+cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
                                                 ${(formData as any)[item.key] ? 'border-cyan-500 bg-cyan-50 ring-1 ring-cyan-500' : 'border-gray-200 hover:border-gray-300'}
-                                            `}>
+`}>
                                                 <span className="font-medium text-gray-800">{item.label}</span>
                                                 <input type="checkbox" name={item.key} className="w-5 h-5 rounded text-cyan-600 focus:ring-cyan-500" checked={Boolean((formData as any)[item.key])} onChange={handleChange} />
                                             </label>
@@ -413,6 +431,72 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                                 <input type="text" name="entranceFee" placeholder="e.g. 150 TL" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 outline-none" value={(formData as any).entranceFee} onChange={handleChange} />
                                             </div>
                                         )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* NIGHTLIFE (BAR, CLUB) */}
+                        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${['BAR', 'CLUB'].includes(formData.category) ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'}`}>
+                            {['BAR', 'CLUB'].includes(formData.category) && (
+                                <div className="space-y-4 pt-2 bg-purple-50/50 p-6 rounded-2xl border border-purple-100">
+                                    <h3 className="font-semibold text-purple-900 flex items-center gap-2">
+                                        <Music className="w-5 h-5" />
+                                        Nightlife Details
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-fr">
+                                        <div className="p-4 bg-white border border-gray-200 rounded-xl h-full flex items-center gap-3 focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500 transition-all">
+                                            <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                                                <Music className="w-5 h-5" />
+                                            </div>
+                                            <div className="flex flex-col flex-1">
+                                                <span className="text-xs text-gray-500 font-medium">Music Type</span>
+                                                <input
+                                                    type="text"
+                                                    name="musicType"
+                                                    placeholder="e.g. Jazz, Pop, Techno"
+                                                    className="w-full outline-none bg-transparent text-gray-900 placeholder-gray-400 text-sm font-medium h-6"
+                                                    value={(formData as any).musicType}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <label className={`flex items-center justify-between p-4 bg-white border rounded-xl cursor-pointer hover:border-gray-300 transition-all h-full ${Boolean((formData as any).isPaid) ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500' : 'border-gray-200'}`}>
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                                    <Ticket className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium text-gray-900">Entrance Fee</div>
+                                                    <div className="text-xs text-gray-500">Is there an entry fee?</div>
+                                                </div>
+                                            </div>
+                                            <input type="checkbox" name="isPaid" className="w-5 h-5 rounded text-purple-600 focus:ring-purple-500" checked={Boolean((formData as any).isPaid)} onChange={handleChange} />
+                                        </label>
+
+                                        {(formData as any).isPaid && (
+                                            <div className="md:col-span-2 transition-all animate-in fade-in slide-in-from-top-2">
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Entry Price</label>
+                                                <input type="text" name="entranceFee" placeholder="e.g. 500 TL" className="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none" value={(formData as any).entranceFee} onChange={handleChange} />
+                                            </div>
+                                        )}
+
+                                        <label className={`cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white ${(formData as any).damAllowed ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500' : 'border-gray-200 hover:border-gray-300'}`}>
+                                            <div className="flex items-center gap-3 w-full">
+                                                <input
+                                                    type="checkbox"
+                                                    name="damAllowed"
+                                                    checked={Boolean((formData as any).damAllowed)}
+                                                    onChange={handleChange}
+                                                    className="w-5 h-5 rounded text-purple-600 focus:ring-purple-500"
+                                                />
+                                                <div className="flex items-center gap-2">
+                                                    <UserCheck className="w-5 h-5 text-purple-600" />
+                                                    <span>Solo Entry Permitted 👤</span>
+                                                </div>
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                             )}
@@ -434,9 +518,9 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                             { key: 'caravanAccess', label: 'Caravan Access 🚐' },
                                         ].map((item) => (
                                             <label key={item.key} className={`
-                                                cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
+cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white
                                                 ${(formData as any)[item.key] ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-gray-200 hover:border-gray-300'}
-                                            `}>
+`}>
                                                 <span className="font-medium text-gray-800">{item.label}</span>
                                                 <input type="checkbox" name={item.key} className="w-5 h-5 rounded text-emerald-600 focus:ring-emerald-500" checked={Boolean((formData as any)[item.key])} onChange={handleChange} />
                                             </label>
@@ -485,7 +569,6 @@ export default function EditPlaceModal({ place, onClose, onUpdate }: EditPlaceMo
                                 </div>
                             )}
                         </div>
-
                         {/* MUSEUM & VISIT */}
                         <div className={`transition-all duration-500 ease-in-out overflow-hidden ${['MUSEUM', 'OTHER'].includes(formData.category) ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'}`}>
                             {['MUSEUM', 'OTHER'].includes(formData.category) && (

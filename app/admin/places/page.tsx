@@ -13,6 +13,7 @@ interface AdminPlace {
     isApproved: boolean;
     priceRange: string | null;
     user: { username: string };
+    images?: { id: string; url: string }[];
     created_at: string;
 }
 
@@ -128,8 +129,8 @@ export default function AdminPlacesPage() {
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">
                                             <div className="h-10 w-10 rounded-lg bg-gray-100 overflow-hidden relative">
-                                                {place.image_url ? (
-                                                    <img src={place.image_url} alt="" className="object-cover w-full h-full" />
+                                                {(place.images?.[0]?.url || place.image_url) ? (
+                                                    <img src={place.images?.[0]?.url || place.image_url || ''} alt="" className="object-cover w-full h-full" />
                                                 ) : <div className="w-full h-full bg-gray-200" />}
                                             </div>
                                             <span className="font-medium text-gray-900">{place.title}</span>

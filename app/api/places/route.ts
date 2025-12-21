@@ -71,24 +71,27 @@ export async function POST(req: Request) {
             largeArea, petFriendly, playground, freeEntry,
             parking, wifi, pool, gym, noiseLevel, foodCourt, babyCare,
             // New Fields
-            isFamilyFriendly, hasSmokingArea, alcoholStatus
+            isFamilyFriendly, hasSmokingArea, alcoholStatus,
+            // Activity & Nightlife
+            duration, reservationRequired, bestTime,
+            damAllowed, musicType, editorNote
         } = await req.json();
 
         // Validation (basic)
-        if (!title || !category || !city || !latitude || !longitude) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        if (!title || !category || !city || !district) {
+            return NextResponse.json({ error: 'Missing required fields (Name, Category, City, District)' }, { status: 400 });
         }
 
         const place = await prisma.place.create({
             data: {
                 title,
                 category,
-                description: description || '',
+                description: description || null,
                 city,
-                district: district || '',
-                address: address || '',
-                latitude: parseFloat(latitude),
-                longitude: parseFloat(longitude),
+                district,
+                address: address || null,
+                latitude: latitude ? parseFloat(latitude) : null,
+                longitude: longitude ? parseFloat(longitude) : null,
                 // Create image relations from array of URLs
                 images: {
                     create: (images as string[] || []).map(url => ({ url }))
@@ -124,7 +127,14 @@ export async function POST(req: Request) {
                 // New Features
                 isFamilyFriendly: Boolean(isFamilyFriendly),
                 hasSmokingArea: Boolean(hasSmokingArea),
-                alcoholStatus: alcoholStatus || null
+                alcoholStatus: alcoholStatus || null,
+                // New Category Fields
+                duration: duration || null,
+                reservationRequired: Boolean(reservationRequired),
+                bestTime: bestTime || null,
+                damAllowed: Boolean(damAllowed),
+                musicType: musicType || null,
+                editorNote: editorNote || null
             },
             include: { images: true } // Return created images
         });

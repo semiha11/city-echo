@@ -84,7 +84,10 @@ export async function PATCH(
             blueFlag, sunbed, shower,
             tentRental, electricity, fireAllowed, caravanAccess,
             // Cafe/Rest/Mall/Beach features
-            isFamilyFriendly, hasSmokingArea, alcoholStatus
+            isFamilyFriendly, hasSmokingArea, alcoholStatus,
+            // Activity & Nightlife
+            duration, reservationRequired, bestTime,
+            damAllowed, musicType, editorNote
         } = body;
 
         const updatedPlace = await prisma.place.update({
@@ -116,6 +119,13 @@ export async function PATCH(
                 babyCare: Boolean(babyCare),
                 hasSmokingArea: Boolean(hasSmokingArea),
                 alcoholStatus: alcoholStatus || null,
+                // New Category Fields
+                duration: duration || null,
+                reservationRequired: Boolean(reservationRequired),
+                bestTime: bestTime || null,
+                damAllowed: Boolean(damAllowed),
+                musicType: musicType || null,
+                editorNote: editorNote || null
             }
         });
 

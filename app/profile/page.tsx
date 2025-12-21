@@ -11,6 +11,7 @@ import Link from 'next/link';
 import InterestInput from '@/components/InterestInput';
 import ImageUploader from '@/components/ImageUploader';
 import { toast } from 'sonner';
+import ReviewItem from '@/components/ReviewItem';
 
 export default function ProfilePage() {
     const { data: session, status } = useSession();
@@ -377,18 +378,32 @@ export default function ProfilePage() {
                             <h3 className="font-medium text-gray-900">No reviews yet</h3>
                         </div>
                     ) : (
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             {user.reviews?.map((review: any) => (
-                                <div key={review.id} className="bg-white p-6 rounded-xl border border-gray-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <div className="flex text-yellow-500">
-                                            {[...Array(review.rating)].map((_, i) => (
-                                                <span key={i}>★</span>
-                                            ))}
+                                <div key={review.id} className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                                    {/* Place Header */}
+                                    {review.place && (
+                                        <div className="bg-gray-50/50 px-6 py-3 border-b border-gray-100 flex items-center justify-between">
+                                            <Link
+                                                href={`/places/${review.place.id}`}
+                                                className="font-bold text-gray-900 hover:text-orange-500 transition-colors flex items-center gap-2"
+                                            >
+                                                <MapPin className="w-4 h-4 text-orange-500" />
+                                                {review.place.title}
+                                            </Link>
+                                            <span className="text-xs text-gray-400 bg-white px-2 py-1 rounded-full border border-gray-100">
+                                                {review.place.district}, {review.place.city}
+                                            </span>
                                         </div>
-                                        <span className="text-sm text-gray-400">• {new Date(review.created_at).toLocaleDateString()}</span>
+                                    )}
+
+                                    {/* Review Content - Using standardized component */}
+                                    <div className="p-0">
+                                        <ReviewItem
+                                            review={review}
+                                            currentUserId={session?.user ? (session.user as any).id : null}
+                                        />
                                     </div>
-                                    <p className="text-gray-700">{review.comment_text}</p>
                                 </div>
                             ))}
                         </div>

@@ -13,7 +13,8 @@ export async function GET() {
     try {
         const places = await prisma.place.findMany({
             include: {
-                user: { select: { username: true } }
+                user: { select: { username: true } },
+                images: true
             },
             orderBy: { created_at: 'desc' }
         });

@@ -72,6 +72,7 @@ export default async function SearchPage({
             ...whereClause,
             isApproved: true // Only show approved places
         },
+        take: 50, // Limit results to prevent browser hang
         include: {
             user: { select: { username: true } },
             reviews: { select: { rating: true } },
@@ -82,7 +83,10 @@ export default async function SearchPage({
                     where: { userId: userId },
                     select: { id: true }
                 }
-            } : {})
+            } : {}),
+            images: {
+                select: { url: true } // Include images for PlaceCard
+            }
         },
         orderBy: { created_at: 'desc' }
     });

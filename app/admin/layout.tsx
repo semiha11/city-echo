@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, MapPin, Users, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, MapPin, Users, Settings, LogOut, MessageSquare } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 export default function AdminLayout({
@@ -16,6 +16,7 @@ export default function AdminLayout({
         { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
         { name: "Places", href: "/admin/places", icon: MapPin },
         { name: "Users", href: "/admin/users", icon: Users },
+        { name: "Reviews", href: "/admin/reviews", icon: MessageSquare }, // Added Reviews
     ];
 
     return (

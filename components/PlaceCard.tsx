@@ -1,5 +1,7 @@
 "use client";
 
+import React from 'react';
+
 import Link from 'next/link';
 import { MapPin, Star } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -41,7 +43,7 @@ interface Place {
     playground?: boolean;
 }
 
-export default function PlaceCard({ place }: { place: Place }) {
+export function PlaceCard({ place }: { place: Place }) {
     const averageRating = place.reviews.length > 0
         ? place.reviews.reduce((acc, review) => acc + review.rating, 0) / place.reviews.length
         : 0;
@@ -73,6 +75,22 @@ export default function PlaceCard({ place }: { place: Place }) {
                                         alt={place.title}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
+                                    {/* Activity Badge */}
+                                    {place.category === 'ACTIVITY' && (
+                                        <div className="absolute top-3 right-12 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg shadow-sm animate-pulse border border-yellow-200">
+                                            <span className="text-[10px] font-bold text-yellow-700 flex items-center gap-1">
+                                                ✨ Popüler Aktivite
+                                            </span>
+                                        </div>
+                                    )}
+                                    {/* User Recommendation Badge */}
+                                    {(place as any).editorNote && (
+                                        <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md px-2 py-1 rounded-full shadow-lg border border-orange-100 transform rotate-[-2deg]">
+                                            <span className="text-[10px] font-bold text-orange-600 flex items-center gap-1">
+                                                📝 Tavsiye
+                                            </span>
+                                        </div>
+                                    )}
                                     {/* Carousel Dots Indicator */}
                                     {images.length > 1 && (
                                         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
@@ -162,9 +180,11 @@ export default function PlaceCard({ place }: { place: Place }) {
                                 const badges = [];
 
                                 if ((place as any).isFamilyFriendly) badges.push({ icon: '👨‍👩‍👧‍👦', label: 'Aileye Uygun', color: 'text-[#1B263B] bg-orange-100 border-orange-200' });
-                                if ((place as any).alcoholStatus === 'NONE') badges.push({ icon: '🥤', label: 'Alkolsüz', color: 'text-[#1B263B] bg-green-100 border-green-200' });
-                                if ((place as any).alcoholStatus === 'ALCOHOLIC') badges.push({ icon: '🍷', label: 'Alkollü', color: 'text-[#1B263B] bg-indigo-100 border-indigo-200' });
-                                if ((place as any).alcoholStatus === 'BOTH') badges.push({ icon: '🍹', label: 'Alkol Var', color: 'text-[#1B263B] bg-indigo-100 border-indigo-200' });
+                                if (['RESTAURANT', 'CAFE', 'BEACH', 'BAR', 'CLUB', 'PUB'].includes(place.category)) {
+                                    if ((place as any).alcoholStatus === 'NONE') badges.push({ icon: '🥤', label: 'Alkolsüz', color: 'text-[#1B263B] bg-green-100 border-green-200' });
+                                    if ((place as any).alcoholStatus === 'ALCOHOLIC') badges.push({ icon: '🍷', label: 'Alkollü', color: 'text-[#1B263B] bg-indigo-100 border-indigo-200' });
+                                    if ((place as any).alcoholStatus === 'BOTH') badges.push({ icon: '🍹', label: 'Alkol Var', color: 'text-[#1B263B] bg-indigo-100 border-indigo-200' });
+                                }
                                 if ((place as any).hasSmokingArea) badges.push({ icon: '🚬', label: 'Sigara Alanı', color: 'text-[#1B263B] bg-gray-100 border-gray-200' });
 
                                 // Fallback important ones if we need to fill space (only if < 3 new ones)
@@ -194,3 +214,5 @@ export default function PlaceCard({ place }: { place: Place }) {
         </div>
     );
 }
+
+export default React.memo(PlaceCard);

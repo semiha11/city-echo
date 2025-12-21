@@ -11,11 +11,10 @@ import { Search, Coffee, Palmtree, Utensils, Building2, ShoppingBag } from 'luci
 // For simplicity, let's make `app/page.tsx` a Server Component and import `SearchBar` client component.
 
 import Link from 'next/link';
+import CityGuide from '@/components/home/CityGuide';
 
-// I need to create SearchBar component quickly or inline it as a client component? No, file separation is better.
-// But valid task is just updating page.tsx. I'll invoke a separate tool to create SearchBar first?
-// No, I can't do parallel request effectively if I replace content now.
-// I will create `components/HeroSection.tsx` which is Client Component.
+// Client Component for Hero to handle Search State
+import HeroSection from '@/components/HeroSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +32,9 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-64px)]">
       <HeroSection />
+
+      {/* City Guide Section - Dynamic from DB */}
+      <CityGuide places={places} />
 
       {/* Categories Section */}
       <section className="py-12 px-4 max-w-7xl mx-auto w-full">
@@ -73,6 +75,3 @@ export default async function Home() {
     </div>
   );
 }
-
-// Client Component for Hero to handle Search State
-import HeroSection from '@/components/HeroSection';

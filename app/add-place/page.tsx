@@ -14,6 +14,8 @@ const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
     loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-xl flex items-center justify-center text-gray-400">Loading Map...</div>
 });
 
+import { Clock, Calendar, Music, UserCheck, Ticket, Users, Mic2, Info } from 'lucide-react';
+
 export default function AddPlacePage() {
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -66,7 +68,19 @@ export default function AddPlacePage() {
         // New Features (Cafe/Rest/Mall)
         isFamilyFriendly: false,
         hasSmokingArea: false,
-        alcoholStatus: 'NONE',
+        alcoholStatus: null as string | null,
+
+        // Activity Specific
+        duration: '',
+        reservationRequired: false,
+        bestTime: '',
+
+        // Bar/Club Specific
+        damAllowed: false,
+        musicType: '',
+
+        // General
+        editorNote: '',
     });
 
     useEffect(() => {
@@ -84,12 +98,67 @@ export default function AddPlacePage() {
         return null;
     }
 
+    const [duplicateWarning, setDuplicateWarning] = useState<{ exists: boolean; placeId?: string } | null>(null);
+
+    // Duplicate Check Effect
+    useEffect(() => {
+        const checkDuplicate = async () => {
+            if (formData.title.length > 2 && formData.city) {
+                try {
+                    const params = new URLSearchParams({ title: formData.title, city: formData.city });
+                    const res = await fetch(`/api/places/check-existence?${params.toString()}`);
+                    const data = await res.json();
+                    if (data.exists) {
+                        setDuplicateWarning({ exists: true, placeId: data.placeId });
+                    } else {
+                        setDuplicateWarning(null);
+                    }
+                } catch (error) {
+                    console.error("Check duplicate failed", error);
+                }
+            } else {
+                setDuplicateWarning(null);
+            }
+        };
+
+        const timer = setTimeout(checkDuplicate, 500);
+        return () => clearTimeout(timer);
+    }, [formData.title, formData.city]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value, type } = e.target;
+
+        if (type === 'checkbox') {
+            const checked = (e.target as HTMLInputElement).checked;
+            setFormData(prev => ({ ...prev, [name]: checked }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleLocationSelect = (lat: number, lng: number) => {
+        setFormData(prev => ({
+            ...prev,
+            latitude: lat.toString(),
+            longitude: lng.toString()
+        }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validate basic fields
+        // Validate basic fields
+        if (!formData.title || !formData.category || !formData.city || !formData.district) {
+            toast.error('Please fill in all required fields (Name, Category, City, District)');
+            return;
+        }
+
+        if (duplicateWarning?.exists) {
+            toast.error('This place already exists. Please check the warning link.');
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
@@ -116,7 +185,7 @@ export default function AddPlacePage() {
         }
     };
 
-    const categories = ['Cafe', 'Museum', 'Hotel', 'Mall', 'Restaurant', 'Park', 'Beach', 'Camping'];
+    const categories = ['Cafe', 'Museum', 'Hotel', 'Mall', 'Restaurant', 'Park', 'Beach', 'Camping', 'Activity', 'Bar', 'Club'];
 
     return (
         <div className="max-w-3xl mx-auto px-4 py-12">
@@ -194,14 +263,12 @@ export default function AddPlacePage() {
                                                     freeEntry: ['PARK'].includes(newCategory) ? prev.freeEntry : false,
                                                     isFamilyFriendly: ['RESTAURANT', 'CAFE', 'MALL', 'BEACH'].includes(newCategory) ? prev.isFamilyFriendly : false,
                                                     hasSmokingArea: ['RESTAURANT', 'CAFE', 'MALL', 'BEACH'].includes(newCategory) ? prev.hasSmokingArea : false,
-                                                    alcoholStatus: ['RESTAURANT', 'CAFE', 'BEACH'].includes(newCategory) ? prev.alcoholStatus : 'NONE',
+                                                    alcoholStatus: ['RESTAURANT', 'CAFE', 'BEACH'].includes(newCategory) ? prev.alcoholStatus : null,
                                                     parking: ['HOTEL', 'MALL'].includes(newCategory) ? prev.parking : false,
                                                     wifi: ['HOTEL', 'MALL'].includes(newCategory) ? prev.wifi : false,
-                                                    isPaid: ['BEACH', 'MUSEUM', 'OTHER'].includes(newCategory) ? prev.isPaid : false,
-                                                    entranceFee: ['BEACH', 'MUSEUM', 'OTHER'].includes(newCategory) ? prev.entranceFee : '',
-                                                    museumCardAccepted: ['MUSEUM', 'OTHER'].includes(newCategory) ? prev.museumCardAccepted : false,
-                                                    photography: ['MUSEUM', 'OTHER'].includes(newCategory) ? prev.photography : false,
+                                                    // Duplicate keys removed
                                                 }));
+
                                             }}
                                         >
                                             <option value="">Select a category</option>
@@ -216,7 +283,6 @@ export default function AddPlacePage() {
                                         <AlignLeft className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                                         <textarea
                                             name="description"
-                                            required
                                             placeholder="Tell us about this place..."
                                             rows={4}
                                             className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none resize-none"
@@ -515,7 +581,145 @@ export default function AddPlacePage() {
                             )}
                         </div>
 
-                        {/* 2. MUSEUM & VISIT (Museum, Other) */}
+                        {/* ACTIVITY (Activity) */}
+                        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${['ACTIVITY'].includes(formData.category) ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'
+                            }`}>
+                            {['ACTIVITY'].includes(formData.category) && (
+                                <div className="space-y-4 pt-2 bg-yellow-50/50 p-6 rounded-2xl border border-yellow-100">
+                                    <h3 className="font-semibold text-yellow-900 flex items-center gap-2">
+                                        <Ticket className="w-5 h-5" />
+                                        Activity Details
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
+                                            <div className="relative">
+                                                <Clock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                                <input type="text" name="duration" placeholder="e.g. 2 Hours, Full Day" className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-yellow-500 outline-none" value={(formData as any).duration} onChange={handleChange} />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Best Time</label>
+                                            <input type="text" name="bestTime" placeholder="e.g. Sunset, Morning" className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-yellow-500 outline-none" value={(formData as any).bestTime} onChange={handleChange} />
+                                        </div>
+                                        <label className={`
+                                            cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white col-span-2
+                                            ${(formData as any).reservationRequired ? 'border-yellow-500 bg-yellow-50 ring-1 ring-yellow-500' : 'border-gray-200 hover:border-gray-300'}
+                                        `}>
+                                            <span className="font-medium text-gray-800">Reservation Required 📅</span>
+                                            <input type="checkbox" className="w-5 h-5 rounded text-yellow-600 focus:ring-yellow-500" checked={Boolean((formData as any).reservationRequired)} onChange={(e) => setFormData(prev => ({ ...prev, reservationRequired: e.target.checked }))} />
+                                        </label>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* NIGHTLIFE (Bar, Club) */}
+                        <div className={`transition-all duration-500 ease-in-out overflow-hidden ${['BAR', 'CLUB'].includes(formData.category) ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'
+                            }`}>
+                            {['BAR', 'CLUB'].includes(formData.category) && (
+                                <div className="space-y-4 pt-2 bg-purple-50/50 p-6 rounded-2xl border border-purple-100">
+                                    <h3 className="font-semibold text-purple-900 flex items-center gap-2">
+                                        <Mic2 className="w-5 h-5" />
+                                        Nightlife Details
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-fr">
+                                        <div className="p-4 bg-white border border-gray-200 rounded-xl h-full flex items-center gap-3 focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500 transition-all">
+                                            <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                                                <Music className="w-5 h-5" />
+                                            </div>
+                                            <div className="flex flex-col flex-1">
+                                                <span className="text-xs text-gray-500 font-medium">Music Type</span>
+                                                <input
+                                                    type="text"
+                                                    name="musicType"
+                                                    placeholder="e.g. Jazz, Pop, Techno"
+                                                    className="w-full outline-none bg-transparent text-gray-900 placeholder-gray-400 text-sm font-medium h-6"
+                                                    value={(formData as any).musicType}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Entrance Fee Toggle */}
+                                        <label className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300 transition-all h-full">
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                                    <Ticket className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium text-gray-900">Entrance Fee</div>
+                                                    <div className="text-xs text-gray-500">Is there an entry fee?</div>
+                                                </div>
+                                            </div>
+                                            <div className="relative inline-flex items-center">
+                                                <input type="checkbox" className="sr-only peer" checked={Boolean((formData as any).isPaid)} onChange={(e) => setFormData(prev => ({ ...prev, isPaid: e.target.checked }))} />
+                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                            </div>
+                                        </label>
+
+                                        {/* Entrance Fee Input (Conditional) */}
+                                        {(formData as any).isPaid && (
+                                            <div className="transition-all animate-in fade-in slide-in-from-top-2 md:col-span-2">
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Entry Price</label>
+                                                <div className="relative">
+                                                    <div className="absolute left-3 top-3 h-5 w-5 text-gray-400 flex items-center justify-center font-bold">₺</div>
+                                                    <input type="text" name="entranceFee" placeholder="e.g. 500 TL" className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 outline-none" value={(formData as any).entranceFee} onChange={handleChange} />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <label className={`
+                                            cursor-pointer rounded-xl border p-4 flex items-center justify-between transition-all bg-white h-full
+                                            ${(formData as any).damAllowed ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500' : 'border-gray-200 hover:border-gray-300'}
+                                        `}>
+                                            <div className="flex items-center gap-3">
+                                                <div className={`h-10 w-10 rounded-full flex items-center justify-center ${(formData as any).damAllowed ? 'bg-purple-200 text-purple-700' : 'bg-gray-100 text-gray-500'}`}>
+                                                    <UserCheck className="w-5 h-5" />
+                                                </div>
+                                                <span className="font-medium text-gray-800">Solo Entry Permitted 👤</span>
+                                            </div>
+                                            <input type="checkbox" className="w-5 h-5 rounded text-purple-600 focus:ring-purple-500" checked={Boolean((formData as any).damAllowed)} onChange={(e) => setFormData(prev => ({ ...prev, damAllowed: e.target.checked }))} />
+                                        </label>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Editor Note Section */}
+                        <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm mb-6">
+                            <h3 className="font-semibold text-gray-900 border-b pb-2 mb-4 flex items-center gap-2">
+                                <Users className="w-5 h-5 text-[var(--color-sunset-orange)]" />
+                                User Recommendation
+                            </h3>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Editor's Note (Optional)</label>
+                                <p className="text-xs text-gray-500 mb-2">Why should people visit this place? Add a personal touch.</p>
+                                <textarea
+                                    name="editorNote"
+                                    placeholder="e.g. You must try the sunset view here! / Kesinlikle gün batımında gelmelisiniz!"
+                                    rows={3}
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none resize-none"
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                />
+                                {duplicateWarning?.exists && (
+                                    <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center justify-between text-red-700 animate-in fade-in slide-in-from-top-2">
+                                        <div className="flex items-center gap-2">
+                                            <Info className="w-5 h-5 shrink-0" />
+                                            <span className="text-sm font-medium">Bu mekan zaten kayıtlı!</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => router.push(`/places/${duplicateWarning.placeId}`)}
+                                            className="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-800 text-xs font-bold rounded-md transition-colors"
+                                        >
+                                            Buraya tıkla ve yorum yap →
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                         <div className={`transition-all duration-500 ease-in-out overflow-hidden ${['MUSEUM', 'OTHER'].includes(formData.category) ? 'max-h-[500px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'
                             }`}>
                             {['MUSEUM', 'OTHER'].includes(formData.category) && (

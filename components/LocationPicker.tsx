@@ -54,7 +54,7 @@ export default function LocationPicker({ onLocationSelect, focusCity, initialLat
     };
 
     // Default center (Turkey center roughly)
-    const defaultCenter: [number, number] = [39.0, 35.0];
+    const [defaultCenter] = useState<[number, number]>([39.0, 35.0]);
     const center = position || defaultCenter;
 
     if (!mounted) {
