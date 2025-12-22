@@ -321,8 +321,8 @@ export default function ProfilePage() {
                                 <div key={place.id} className="group relative bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all">
                                     <Link href={`/places/${place.id}`} className="block">
                                         <div className="h-48 bg-gray-100 relative">
-                                            {place.image_url ? (
-                                                <img src={place.image_url} alt={place.title} className="w-full h-full object-cover" />
+                                            {(place.images && place.images.length > 0) ? (
+                                                <img src={place.images[0].url} alt={place.title} className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
                                                     <MapPin className="w-8 h-8" />
@@ -382,8 +382,8 @@ export default function ProfilePage() {
                             {user.favorites?.map((fav: any) => (
                                 <Link key={fav.place.id} href={`/places/${fav.place.id}`} className="group block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all">
                                     <div className="h-48 bg-gray-100 relative">
-                                        {fav.place.image_url ? (
-                                            <img src={fav.place.image_url} alt={fav.place.title} className="w-full h-full object-cover" />
+                                        {(fav.place.images && fav.place.images.length > 0) ? (
+                                            <img src={fav.place.images[0].url} alt={fav.place.title} className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
                                                 <MapPin className="w-8 h-8" />

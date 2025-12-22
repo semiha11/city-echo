@@ -17,7 +17,8 @@ export async function GET(req: Request) {
             where: { id: userId },
             include: {
                 places: {
-                    orderBy: { created_at: 'desc' }
+                    orderBy: { created_at: 'desc' },
+                    include: { images: true }
                 },
                 reviews: {
                     orderBy: { created_at: 'desc' },
