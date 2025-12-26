@@ -207,15 +207,15 @@ export default function AddPlacePage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Place Name</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Place Name</label>
                                     <div className="relative">
-                                        <Type className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                        <Type className="absolute left-3 top-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                                         <input
                                             type="text"
                                             name="title"
                                             required
                                             placeholder="e.g. The Cozy Corner"
-                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none"
+                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-slate-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none"
                                             value={formData.title}
                                             onChange={handleChange}
                                         />
@@ -223,13 +223,13 @@ export default function AddPlacePage() {
                                 </div>
 
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Category</label>
                                     <div className="relative">
-                                        <Tag className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                        <Tag className="absolute left-3 top-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                                         <select
                                             name="category"
                                             required
-                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none appearance-none bg-white"
+                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none appearance-none"
                                             value={formData.category}
                                             onChange={(e) => {
                                                 const newCategory = e.target.value;
@@ -278,14 +278,14 @@ export default function AddPlacePage() {
                                 </div>
 
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Description</label>
                                     <div className="relative">
-                                        <AlignLeft className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                        <AlignLeft className="absolute left-3 top-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                                         <textarea
                                             name="description"
                                             placeholder="Tell us about this place..."
                                             rows={4}
-                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none resize-none"
+                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-slate-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[var(--color-sunset-orange)] focus:border-transparent outline-none resize-none"
                                             value={formData.description}
                                             onChange={handleChange}
                                         />
